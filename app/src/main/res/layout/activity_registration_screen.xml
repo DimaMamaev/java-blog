@@ -4,24 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginScreen"
+    tools:context=".RegistrationScreen"
     android:orientation="vertical"
     android:gravity="center"
     android:padding="15dp"
     >
     <ProgressBar
-        android:id="@+id/loading_bar"
+        android:id="@+id/loading_bar_registration"
         style="?android:attr/progressBarStyleLarge"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <LinearLayout
         android:orientation="vertical"
-        android:id="@+id/login_form"
+        android:id="@+id/login_form_registration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/username_acc_registration"
+            android:hint="@string/usernameHint"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:layout_marginBottom="10dp"
+            android:textSize="20dp"
+            />
         <AutoCompleteTextView
-            android:id="@+id/email"
+            android:id="@+id/email_registration"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:maxLines="1"
@@ -32,7 +42,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/password"
+            android:id="@+id/password_registration"
             android:maxLines="1"
             android:inputType="textPassword"
             android:hint="@string/hint_password"
@@ -43,26 +53,7 @@
             android:layout_marginTop="10dp"
             android:id="@+id/signInBtn"
             android:textColor="@color/purple_700"
-            android:text="@string/signInBtnText"
-            android:background="@android:color/transparent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/orChange"
-            android:text="@string/changeParam"
-            android:textSize="15dp"
-            android:gravity="center_horizontal"
-            />
-        <Button
-            android:layout_marginTop="10dp"
-            android:id="@+id/registrationBtn"
-            android:textColor="@color/purple_700"
-            android:text="@string/createAcc"
+            android:text="@string/registrationBtnText"
             android:background="@android:color/transparent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

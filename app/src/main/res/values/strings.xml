@@ -8,4 +8,6 @@
     <string name="signInBtnText">Login</string>
     <string name="changeParam">Or</string>
     <string name="registrationBtnText">Registration</string>
+    <string name="createAcc">Create account</string>
+    <string name="usernameHint">Username</string>
 </resources>
