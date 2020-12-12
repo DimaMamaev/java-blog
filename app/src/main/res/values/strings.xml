@@ -10,4 +10,9 @@
     <string name="registrationBtnText">Registration</string>
     <string name="createAcc">Create account</string>
     <string name="usernameHint">Username</string>
+    <string name="post_title_img_desc">post_title_img_desc</string>
+    <string name="post_title_hint">Post title:</string>
+    <string name="post_desc_hint">Type your post:</string>
+    <string name="save_post">Save Post !</string>
+    <string name="add_new_photo">add_new_photo</string>
 </resources>

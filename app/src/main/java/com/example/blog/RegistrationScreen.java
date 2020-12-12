@@ -27,6 +27,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+import Utils.BlogApi;
+
 public class RegistrationScreen extends AppCompatActivity {
     private Button registrationBtn;
     private EditText email;
@@ -122,12 +124,11 @@ public class RegistrationScreen extends AppCompatActivity {
 
                                                                String name = task.getResult().getString("username");
 
-                                                            Intent intent = new Intent(RegistrationScreen.this, PostScreen.class);
-                                                            intent.putExtra("username", name);
-                                                            intent.putExtra("userId", currentUserId);
-                                                            startActivity(intent);
+                                                                BlogApi blogApi = BlogApi.getInstance();
+                                                                blogApi.setUserId(currentUserId);
+                                                                blogApi.setUsername(name);
 
-
+                                                                startActivity(new Intent(RegistrationScreen.this, PostScreen.class));
                                                             } else {
                                                                 progressBar.setVisibility(View.INVISIBLE);
                                                             }
