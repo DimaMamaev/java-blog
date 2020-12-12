@@ -51,7 +51,7 @@
             />
         <Button
             android:layout_marginTop="10dp"
-            android:id="@+id/signInBtn"
+            android:id="@+id/registrationUserBtn"
             android:textColor="@color/purple_700"
             android:text="@string/registrationBtnText"
             android:background="@android:color/transparent"
