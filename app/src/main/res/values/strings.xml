@@ -3,4 +3,9 @@
     <string name="title_text">Simple Blog App</string>
     <string name="welcome_message">Welcome !</string>
     <string name="authBtnText">Get started</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="signInBtnText">Login</string>
+    <string name="changeParam">Or</string>
+    <string name="registrationBtnText">Registration</string>
 </resources>
