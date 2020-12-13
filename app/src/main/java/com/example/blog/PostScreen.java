@@ -7,20 +7,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.Date;
 
 import Utils.BlogApi;
+import model.Post;
 
 public class PostScreen extends AppCompatActivity implements View.OnClickListener {
 
@@ -52,6 +63,7 @@ public class PostScreen extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_screen);
 
+        storageReference = FirebaseStorage.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
 
         progressBar = findViewById(R.id.progressBar_post);
@@ -63,7 +75,9 @@ public class PostScreen extends AppCompatActivity implements View.OnClickListene
         postDate = findViewById(R.id.post_date);
         postImage = findViewById(R.id.post_image);
 
+        progressBar.setVisibility(View.INVISIBLE);
         saveBtn.setOnClickListener(this);
+        addPhoto.setOnClickListener(this);
 
         if (BlogApi.getInstance() != null) {
             currentUserId = BlogApi.getInstance().getUserId();
@@ -89,12 +103,79 @@ public class PostScreen extends AppCompatActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_post_create:
+                savePost();
                 break;
             case R.id.add_post_image:
                 Intent toGalery = new Intent(Intent.ACTION_GET_CONTENT);
                 toGalery.setType("image/*");
                 startActivityForResult(toGalery, GALARY_CODE);
                 break;
+        }
+    }
+
+    private void savePost() {
+        String title = postTitle.getText().toString().trim();
+        String description = postDesc.getText().toString().trim();
+        progressBar.setVisibility(View.VISIBLE);
+
+        if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(description) && imageUri != null) {
+                StorageReference imagePath = storageReference
+                        .child("post_images")
+                        .child("img"+ Timestamp.now().getSeconds());
+                imagePath.putFile(imageUri)
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                imagePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        String imageUrl = uri.toString();
+                                        Post postModel = new Post();
+                                        postModel.setTitle(title);
+                                        postModel.setDescription(description);
+                                        postModel.setImageUrl(imageUrl);
+                                        postModel.setTimeAdd(new Timestamp(new Date()));
+                                        postModel.setUserName(getCurrentUserName);
+                                        postModel.setUserId(currentUserId);
+
+
+                                        collectionReference.add(postModel)
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentReference documentReference) {
+                                                        progressBar.setVisibility(View.INVISIBLE);
+
+                                                        startActivity(new Intent(PostScreen.this, PostListScreen.class));
+                                                        finish();
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(PostScreen.this,
+                                                                "Error"+ e.getMessage(),
+                                                                Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                    }
+                                });
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progressBar.setVisibility(View.INVISIBLE);
+                                Toast.makeText(PostScreen.this,
+                                        "Error"+ e.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+        } else {
+                progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(PostScreen.this,
+                        "Empty fields and no image downloaded are not allowed!",
+                        Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -106,6 +187,8 @@ public class PostScreen extends AppCompatActivity implements View.OnClickListene
                 imageUri = data.getData();
                 postImage.setImageURI(imageUri);
             }
+        } else {
+            Toast.makeText(PostScreen.this, "Oops something went wrong, image hasn't been downloaded!", Toast.LENGTH_LONG).show();
         }
     }
 
