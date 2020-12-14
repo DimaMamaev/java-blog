@@ -10,7 +10,7 @@
     android:padding="15dp"
     >
     <ProgressBar
-        android:id="@+id/loading_bar"
+        android:id="@+id/loading_bar_login"
         style="?android:attr/progressBarStyleLarge"
         android:visibility="gone"
         android:layout_width="wrap_content"
