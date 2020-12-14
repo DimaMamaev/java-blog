@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -82,42 +83,42 @@ public class LoginScreen extends AppCompatActivity {
             }
 
             private void loginApp(String emailValue, String passwordValue) {
-                    firebaseAuth.signInWithEmailAndPassword(emailValue, passwordValue)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                        FirebaseUser user = firebaseAuth.getCurrentUser();
-                                        assert user != null;
-                                        String currentUserId = user.getUid();
+                firebaseAuth.signInWithEmailAndPassword(emailValue, passwordValue)
+                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            assert user != null;
+                            String currentUserId = user.getUid();
 
-                                        collectionReference
-                                            .whereEqualTo("userId", currentUserId)
-                                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onEvent(@Nullable QuerySnapshot value,
-                                                                    @Nullable FirebaseFirestoreException error) {
-                                                  assert value != null;
-                                                  if (!value.isEmpty()) {
-                                                    for (QueryDocumentSnapshot snapshot: value) {
-                                                        BlogApi blogApi = BlogApi.getInstance();
-                                                        blogApi.setUsername(snapshot.getString("username"));
-                                                        blogApi.setUserId(snapshot.getString("userId"));
+                            collectionReference
+                                .whereEqualTo("userId", currentUserId)
+                                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onEvent(@Nullable QuerySnapshot value,
+                                                        @Nullable FirebaseFirestoreException error) {
+                                        assert value != null;
+                                        if (!value.isEmpty()) {
+                                            for (QueryDocumentSnapshot snapshot: value) {
+                                                BlogApi blogApi = BlogApi.getInstance();
+                                                blogApi.setUsername(snapshot.getString("username"));
+                                                blogApi.setUserId(snapshot.getString("userId"));
 
-                                                        startActivity(new Intent(LoginScreen.this, PostListScreen.class));
-                                                    }
-                                                  }
-                                                }
-                                            });
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(LoginScreen.this,
-                                            "Error:" + e.getMessage(),
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                                startActivity(new Intent(LoginScreen.this, PostListScreen.class));
+                                            }
+                                        }
+                                    }
+                                });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(LoginScreen.this,
+                                    "Error:" + e.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
             }
         });
 

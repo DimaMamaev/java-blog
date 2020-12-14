@@ -15,4 +15,6 @@
     <string name="post_desc_hint">Type your post:</string>
     <string name="save_post">Save Post !</string>
     <string name="add_new_photo">add_new_photo</string>
+    <string name="add_new_post">Add new Post!</string>
+    <string name="action_signOut">Sign out</string>
 </resources>
