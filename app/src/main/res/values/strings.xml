@@ -17,4 +17,6 @@
     <string name="add_new_photo">add_new_photo</string>
     <string name="add_new_post">Add new Post!</string>
     <string name="action_signOut">Sign out</string>
+    <string name="empty_folder">Post list is empty, create new one by clicking add button!</string>
+    <string name="string_empty_folder">Post list is empty, create new one by clicking add button</string>
 </resources>
