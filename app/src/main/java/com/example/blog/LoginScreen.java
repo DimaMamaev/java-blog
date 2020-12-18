@@ -83,6 +83,7 @@ public class LoginScreen extends AppCompatActivity {
             }
 
             private void loginApp(String emailValue, String passwordValue) {
+                progressBar.setVisibility(View.VISIBLE);
                 firebaseAuth.signInWithEmailAndPassword(emailValue, passwordValue)
                     .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
@@ -109,11 +110,13 @@ public class LoginScreen extends AppCompatActivity {
                                         }
                                     }
                                 });
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            progressBar.setVisibility(View.INVISIBLE);
                             Toast.makeText(LoginScreen.this,
                                     "Error:" + e.getMessage(),
                                     Toast.LENGTH_SHORT).show();

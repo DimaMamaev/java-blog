@@ -11,6 +11,6 @@
         android:id="@+id/action_signOut"
         android:title="@string/action_signOut"
         android:icon="@android:drawable/ic_menu_info_details"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         />
 </menu>
