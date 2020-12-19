@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle"
+    >
+    <gradient
+        android:startColor="@color/common_google_signin_btn_text_light"
+        android:centerColor="@color/design_default_color_error"
+        android:endColor="@color/cardview_dark_background"
+        android:angle="90"
+        />
+
+</shape>

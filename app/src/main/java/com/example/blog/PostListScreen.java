@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,7 +42,7 @@ public class PostListScreen extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PostRecyclerAdapter postRecyclerAdapter;
 
-    private CollectionReference collectionReference = db.collection("Post");
+    private CollectionReference collectionReference = db.collection("Posts");
     private TextView emptyPlaceholder;
 
     @Override
@@ -92,8 +93,7 @@ public class PostListScreen extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        collectionReference.whereEqualTo("userId", BlogApi.getInstance()
-                .getUserId())
+        collectionReference.whereEqualTo("userId", BlogApi.getInstance().getUserId())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -115,7 +115,9 @@ public class PostListScreen extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Toast.makeText(PostListScreen.this,
+                                "Error:" + e.getMessage(),
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
