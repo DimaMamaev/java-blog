@@ -5,6 +5,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,6 +46,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         holder.postTitleView.setText(post.getTitle());
         holder.postDescrView.setText(post.getDescription());
         holder.postDateView.setText(timeAgo);
+        holder.postUsernameView.setText(post.getUserName());
 
 
         imageUrl = post.getImageUrl();
@@ -61,8 +63,9 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView postTitleView, postDescrView, postDateView;
+        public TextView postTitleView, postDescrView, postDateView, postUsernameView;
         public ImageView postImgView;
+        public ImageButton postShareBtn;
         String userId, username;
 
 
@@ -74,6 +77,20 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             postDescrView = itemView.findViewById(R.id.post_row_desc);
             postDateView = itemView.findViewById(R.id.post_row_timestamp);
             postImgView = itemView.findViewById(R.id.post_row_image);
+            postUsernameView = itemView.findViewById(R.id.post_row_username);
+            postShareBtn = itemView.findViewById(R.id.post_row_btn_share);
+
+
+            postShareBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                }
+            });
+
+
+
 
         }
     }
