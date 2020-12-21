@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -50,6 +51,7 @@ public class LoginScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().setElevation(0);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -58,7 +60,6 @@ public class LoginScreen extends AppCompatActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         progressBar = findViewById(R.id.loading_bar_login);
-
 
         registrationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,9 +77,9 @@ public class LoginScreen extends AppCompatActivity {
                 if (!TextUtils.isEmpty(emailValue) && !TextUtils.isEmpty(passwordValue)) {
                     loginApp(emailValue, passwordValue);
                 } else {
-                    Toast.makeText(LoginScreen.this,
-                            "Empty fields not allowed!",
-                            Toast.LENGTH_SHORT).show();
+                 Toast toast = Toast.makeText(LoginScreen.this, "Empty fields not allowed!", Toast.LENGTH_SHORT);
+                 toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
+                 toast.show();
                 }
             }
 
@@ -117,14 +118,12 @@ public class LoginScreen extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(LoginScreen.this,
-                                    "Error:" + e.getMessage(),
-                                    Toast.LENGTH_SHORT).show();
+                            Toast toast = Toast.makeText(LoginScreen.this, "Error:" + e.getMessage(), Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
+                            toast.show();
                         }
                     });
             }
         });
-
-
     }
 }

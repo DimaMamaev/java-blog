@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">blog</string>
-    <string name="title_text">Simple Blog App</string>
-    <string name="welcome_message">Welcome !</string>
+    <string name="app_name"></string>
+    <string name="title_text">Blog App</string>
+    <string name="welcome_message">Your own personal blog</string>
     <string name="authBtnText">Get started</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="signInBtnText">Login</string>
     <string name="changeParam">Or</string>
-    <string name="registrationBtnText">Registration</string>
+    <string name="registrationBtnText">Create</string>
     <string name="createAcc">Create account</string>
     <string name="usernameHint">Username</string>
     <string name="post_title_img_desc">post_title_img_desc</string>
@@ -19,4 +19,6 @@
     <string name="action_signOut">Sign out</string>
     <string name="empty_folder">Post list is empty, create new one by clicking add button!</string>
     <string name="string_empty_folder">Post list is empty, create new one by clicking add button</string>
+    <string name="title_login">Enter account</string>
+    <string name="title_registration">Create account</string>
 </resources>

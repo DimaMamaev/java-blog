@@ -7,14 +7,17 @@
     android:orientation="vertical"
     android:padding="20dp"
     android:gravity="center"
-    android:background="@drawable/gradient"
+    android:background="@drawable/gradient_main_screen"
     tools:context=".MainActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/app_title"
         android:text="@string/title_text"
-        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textSize="40sp"
+        android:paddingBottom="25dp"
+        android:textColor="@color/white"
         />
     <RelativeLayout
         android:id="@+id/relativelayout"
@@ -23,7 +26,7 @@
         android:layout_height="wrap_content">
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:elevation="10dp"
             app:cardCornerRadius="5dp"
             app:cardUseCompatPadding="true">
@@ -33,15 +36,19 @@
                 android:text="@string/welcome_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp" />
+                android:textStyle="italic"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/authBtn"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
         android:text="@string/authBtnText"
-        android:textColor="@android:color/holo_blue_bright"
-        android:background="@android:color/transparent"
+        android:textColor="#FFF7F7"
+        android:background="#FFFFFF"
         />
 </LinearLayout>

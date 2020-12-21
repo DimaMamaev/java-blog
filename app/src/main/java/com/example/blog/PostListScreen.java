@@ -49,10 +49,10 @@ public class PostListScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_list_screen);
+        getSupportActionBar().setElevation(0);
 
         emptyPlaceholder = findViewById(R.id.emptyFolderComp);
         recyclerView = findViewById(R.id.recycleView);
-
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
@@ -61,7 +61,6 @@ public class PostListScreen extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         postList = new ArrayList<>();
-
     }
 
     @Override
@@ -94,31 +93,31 @@ public class PostListScreen extends AppCompatActivity {
         super.onStart();
 
         collectionReference.whereEqualTo("userId", BlogApi.getInstance().getUserId())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            for (QueryDocumentSnapshot posts : queryDocumentSnapshots) {
-                                Post post = posts.toObject(Post.class);
-                                postList.add(post);
-                            }
-                            postRecyclerAdapter = new PostRecyclerAdapter(PostListScreen.this,
-                                    postList);
-                            recyclerView.setAdapter(postRecyclerAdapter);
-                            postRecyclerAdapter.notifyDataSetChanged();
-                        } else {
-                            emptyPlaceholder.setVisibility(View.VISIBLE);
+            .get()
+            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (QueryDocumentSnapshot posts : queryDocumentSnapshots) {
+                            Post post = posts.toObject(Post.class);
+                            postList.add(post);
                         }
+                        postRecyclerAdapter = new PostRecyclerAdapter(PostListScreen.this,
+                                postList);
+                        recyclerView.setAdapter(postRecyclerAdapter);
+                        postRecyclerAdapter.notifyDataSetChanged();
+                    } else {
+                        emptyPlaceholder.setVisibility(View.VISIBLE);
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(PostListScreen.this,
-                                "Error:" + e.getMessage(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(PostListScreen.this,
+                            "Error:" + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 }

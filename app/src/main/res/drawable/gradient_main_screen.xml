@@ -4,10 +4,9 @@
     android:shape="rectangle"
     >
     <gradient
-        android:startColor="@color/common_google_signin_btn_text_light"
+        android:startColor="#90C60000"
         android:centerColor="@color/design_default_color_error"
-        android:endColor="@color/cardview_dark_background"
+        android:endColor="#902C0000"
         android:angle="90"
         />
-
 </shape>

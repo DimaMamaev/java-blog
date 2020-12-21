@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,6 +48,7 @@ public class RegistrationScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration_screen);
+        getSupportActionBar().setElevation(0);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -62,9 +64,7 @@ public class RegistrationScreen extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 currentUser = firebaseAuth.getCurrentUser();
                 if(currentUser != null) {
-
                 } else {
-
                 }
             }
         };
@@ -82,11 +82,10 @@ public class RegistrationScreen extends AppCompatActivity {
                     String validUsernameString = username.getText().toString().trim();
 
                     createAccount(validEmailString, validPasswordString, validUsernameString);
-
                 } else {
-                    Toast.makeText(RegistrationScreen.this,
-                            "Empty fields are not allowed",
-                            Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(RegistrationScreen.this, "Empty fields are not allowed", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
+                    toast.show();
                 }
             }
         });
@@ -106,44 +105,42 @@ public class RegistrationScreen extends AppCompatActivity {
                             assert currentUser != null;
                             String currentUserId = currentUser.getUid();
 
-
                             Map<String, String> userObject = new HashMap<>();
                             userObject.put("userId", currentUserId);
                             userObject.put("username", username);
 
                             collectionReference.add(userObject)
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                        @Override
-                                        public void onSuccess(DocumentReference documentReference) {
-                                            documentReference.get()
-                                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                            if (task.getResult().exists()) {
-                                                               progressBar.setVisibility(View.INVISIBLE);
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        documentReference.get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.getResult().exists()) {
+                                                       progressBar.setVisibility(View.INVISIBLE);
 
-                                                               String name = task.getResult().getString("username");
+                                                       String name = task.getResult().getString("username");
 
-                                                                BlogApi blogApi = BlogApi.getInstance();
-                                                                blogApi.setUserId(currentUserId);
-                                                                blogApi.setUsername(name);
+                                                        BlogApi blogApi = BlogApi.getInstance();
+                                                        blogApi.setUserId(currentUserId);
+                                                        blogApi.setUsername(name);
 
-                                                                startActivity(new Intent(RegistrationScreen.this, PostScreen.class));
-                                                            } else {
-                                                                progressBar.setVisibility(View.INVISIBLE);
-                                                            }
-                                                        }
-                                                    });
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-
-                                        }
-                                    });
-
-                        } else {
+                                                        startActivity(new Intent(RegistrationScreen.this, PostScreen.class));
+                                                    } else {
+                                                        progressBar.setVisibility(View.INVISIBLE);
+                                                    }
+                                                }
+                                            });
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast toast = Toast.makeText(RegistrationScreen.this, "Error:" + e.getMessage(), Toast.LENGTH_SHORT);
+                                        toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
+                                        toast.show();                                    }
+                                });
 
                         }
                     }
@@ -151,8 +148,9 @@ public class RegistrationScreen extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
-                    }
+                        Toast toast = Toast.makeText(RegistrationScreen.this, "Error:" + e.getMessage(), Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
+                        toast.show();                    }
                 });
     }
 
@@ -160,10 +158,7 @@ public class RegistrationScreen extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         currentUser = firebaseAuth.getCurrentUser();
         firebaseAuth.addAuthStateListener(authStateListener);
-
-
     }
 }

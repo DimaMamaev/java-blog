@@ -1,5 +1,7 @@
 package com.example.blog;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcherOwner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,13 +38,9 @@ import model.Post;
 public class PostScreen extends AppCompatActivity implements View.OnClickListener {
 
     private static final int GALARY_CODE = 1;
-    private Button saveBtn;
     private ProgressBar progressBar;
-    private ImageView addPhoto;
     private EditText postTitle;
     private EditText postDesc;
-    private TextView postUser;
-    private TextView postDate;
     private ImageView postImage;
 
     private String currentUserId;
@@ -52,9 +50,9 @@ public class PostScreen extends AppCompatActivity implements View.OnClickListene
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser user;
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private StorageReference storageReference;
-    private CollectionReference collectionReference = db.collection("Posts");
+    private final CollectionReference collectionReference = db.collection("Posts");
     private Uri imageUri;
 
 
@@ -62,17 +60,18 @@ public class PostScreen extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_screen);
+        getSupportActionBar().setElevation(0);
 
         storageReference = FirebaseStorage.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
 
         progressBar = findViewById(R.id.progressBar_post);
-        saveBtn = findViewById(R.id.button_post_create);
-        addPhoto = findViewById(R.id.add_post_image);
+        Button saveBtn = findViewById(R.id.button_post_create);
+        ImageView addPhoto = findViewById(R.id.add_post_image);
         postTitle = findViewById(R.id.post_title);
         postDesc = findViewById(R.id.post_description);
-        postUser = findViewById(R.id.post_username);
-        postDate = findViewById(R.id.post_date);
+        TextView postUser = findViewById(R.id.post_username);
+        TextView postDate = findViewById(R.id.post_date);
         postImage = findViewById(R.id.post_image);
 
         progressBar.setVisibility(View.INVISIBLE);
@@ -82,7 +81,6 @@ public class PostScreen extends AppCompatActivity implements View.OnClickListene
         if (BlogApi.getInstance() != null) {
             currentUserId = BlogApi.getInstance().getUserId();
             getCurrentUserName = BlogApi.getInstance().getUsername();
-
             postUser.setText(getCurrentUserName);
         }
 
@@ -90,14 +88,10 @@ public class PostScreen extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-
-                } else {
-
-                }
             }
         };
     }
+
 
     @Override
     public void onClick(View v) {
