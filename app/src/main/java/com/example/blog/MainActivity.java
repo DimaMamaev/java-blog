@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,14 +24,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import Utils.BlogApi;
 
 public class MainActivity extends AppCompatActivity {
-    private Button authBtn;
 
+    private static final String CHANNEL_ID = "BLOG_NOTIFICATIONS";
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser currentUser;
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference collectionReference = db.collection("Users");
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference collectionReference = db.collection("Users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setElevation(0);
 
-        authBtn = findViewById(R.id.authBtn);
+        Button authBtn = findViewById(R.id.authBtn);
 
         firebaseAuth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener() {
@@ -84,6 +87,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+// create a notification channel
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                CharSequence name = getString(R.string.channel_name);
+                String description = getString(R.string.channel_description);
+                int importance = NotificationManager.IMPORTANCE_DEFAULT;
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+                channel.setDescription(description);
+                NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                notificationManager.createNotificationChannel(channel);
+            }
         currentUser = firebaseAuth.getCurrentUser();
         firebaseAuth.addAuthStateListener(authStateListener);
     }

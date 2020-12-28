@@ -21,6 +21,7 @@
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="150dp"
         >
         <TextView
             android:id="@+id/app_title_login"
@@ -40,7 +41,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textStyle="italic"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textColorHint="@color/white"
             />
         <EditText
@@ -54,7 +55,7 @@
             android:layout_marginTop="15dp"
             android:textSize="20sp"
             android:textStyle="italic"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:layout_marginBottom="10dp"
             />
         <Button

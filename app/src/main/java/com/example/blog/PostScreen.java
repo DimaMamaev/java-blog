@@ -5,7 +5,11 @@ import androidx.activity.OnBackPressedDispatcherOwner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,6 +35,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.Date;
+import java.util.Random;
 
 import Utils.BlogApi;
 import model.Post;
@@ -133,16 +138,39 @@ public class PostScreen extends AppCompatActivity implements View.OnClickListene
                                         postModel.setUserName(getCurrentUserName);
                                         postModel.setUserId(currentUserId);
 
-
                                         collectionReference.add(postModel)
                                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                     @Override
                                                     public void onSuccess(DocumentReference documentReference) {
                                                         progressBar.setVisibility(View.INVISIBLE);
 
+                                //  Create pending intent for notification tap redirect
+                                                        Intent resultIntent = new Intent(PostScreen.this, PostListScreen.class);
+                                                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(PostScreen.this);
+                                                        stackBuilder.addNextIntentWithParentStack(resultIntent);
+                                                        PendingIntent resultPendingIntent =
+                                                                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                                // Create notification view & description
+                                                        NotificationCompat.Builder builder = new NotificationCompat.Builder(PostScreen.this, "BLOG_NOTIFICATIONS")
+                                                                .setSmallIcon(R.drawable.notification_icon)
+                                                                .setContentTitle("User: " + getCurrentUserName + ", added new post!")
+                                                                .setContentText("It could be a post description! But not today! Tap to view all posts")
+                                                                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                                                .setContentIntent(resultPendingIntent);
+
+                                // Push notification to notification manager to show it for user
+                                                        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(PostScreen.this);
+                                                        int notificationId = getRandomNumberUsingNextInt(1, 1000);
+                                                        notificationManager.notify(notificationId, builder.build());
+
                                                         startActivity(new Intent(PostScreen.this, PostListScreen.class));
                                                         finish();
                                                     }
+
+                                                    private int getRandomNumberUsingNextInt(int i, int i1) {
+                                                        Random random = new Random();
+                                                        return random.nextInt(i1 - i) + i;
+                                                    };
                                                 })
                                                 .addOnFailureListener(new OnFailureListener() {
                                                     @Override

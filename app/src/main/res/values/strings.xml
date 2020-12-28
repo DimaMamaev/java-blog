@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name"></string>
+    <string name="channel_name">blog_notification</string>
+    <string name="channel_description">sending_notifications_from_app</string>
     <string name="title_text">Blog App</string>
     <string name="welcome_message">Your own personal blog</string>
     <string name="authBtnText">Get started</string>
@@ -21,4 +23,6 @@
     <string name="string_empty_folder">Post list is empty, create new one by clicking add button</string>
     <string name="title_login">Enter account</string>
     <string name="title_registration">Create account</string>
+    <string name="share_btn">share_btn</string>
+    <string name="post_img">post_img</string>
 </resources>

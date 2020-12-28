@@ -35,14 +35,14 @@ public class PostListScreen extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser user;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private StorageReference storageReference;
 
     private List<Post> postList;
     private RecyclerView recyclerView;
     private PostRecyclerAdapter postRecyclerAdapter;
 
-    private CollectionReference collectionReference = db.collection("Posts");
+    private final CollectionReference collectionReference = db.collection("Posts");
     private TextView emptyPlaceholder;
 
     @Override

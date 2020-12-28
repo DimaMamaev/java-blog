@@ -33,8 +33,6 @@ import Utils.BlogApi;
 
 public class LoginScreen extends AppCompatActivity {
 
-    private Button registrationBtn;
-    private Button loginBtn;
     private AutoCompleteTextView email;
     private EditText password;
 
@@ -43,8 +41,8 @@ public class LoginScreen extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser currentUser;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference collectionReference = db.collection("Users");
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference collectionReference = db.collection("Users");
 
 
     @Override
@@ -55,8 +53,8 @@ public class LoginScreen extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        registrationBtn = findViewById(R.id.registrationBtn);
-        loginBtn = findViewById(R.id.signInBtn);
+        Button registrationBtn = findViewById(R.id.registrationBtn);
+        Button loginBtn = findViewById(R.id.signInBtn);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         progressBar = findViewById(R.id.loading_bar_login);

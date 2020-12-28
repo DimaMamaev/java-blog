@@ -4,10 +4,10 @@ import com.google.firebase.Timestamp;
 
 public class Post {
     private String title;
-    private  String description;
-    private  String imageUrl;
-    private  String userId;
-    private  String userName;
+    private String description;
+    private String imageUrl;
+    private String userId;
+    private String userName;
     private Timestamp timeAdd;
 
     public Post() {

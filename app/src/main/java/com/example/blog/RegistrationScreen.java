@@ -31,7 +31,6 @@ import java.util.Map;
 import Utils.BlogApi;
 
 public class RegistrationScreen extends AppCompatActivity {
-    private Button registrationBtn;
     private EditText email;
     private EditText password;
     private EditText username;
@@ -41,8 +40,8 @@ public class RegistrationScreen extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser currentUser;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference collectionReference = db.collection("Users");
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference collectionReference = db.collection("Users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,7 @@ public class RegistrationScreen extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        registrationBtn = findViewById(R.id.registrationUserBtn);
+        Button registrationBtn = findViewById(R.id.registrationUserBtn);
         email = findViewById(R.id.email_registration);
         password = findViewById(R.id.password_registration);
         username = findViewById(R.id.username_acc_registration);
